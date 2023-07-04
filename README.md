@@ -1,1 +1,1 @@
-# yp-electron
+# react-electron-cli
