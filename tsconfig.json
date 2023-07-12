@@ -17,7 +17,10 @@
     "noImplicitReturns": true,
     "declaration": true,
     "declarationDir": "dist/types",
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@/*": ["src/*"],
+    }
   },
-  "include": ["src", "config"]
+  "include": ["src", "src/config"]
 }

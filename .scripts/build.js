@@ -5,6 +5,7 @@ const rollup = require('rollup')
 const typescript = require('@rollup/plugin-typescript')
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor')
+const aliasPlugin = require('@rollup/plugin-alias')
 
 ;(async () => {
   const dist = path.resolve(__dirname, '../dist')
@@ -21,14 +22,21 @@ const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor')
   const bundle = await rollup.rollup({
     input: {
       index: path.resolve(__dirname, '../src/index.ts'),
-      cli: path.resolve(__dirname, '../src/cli.ts')
+      cli: path.resolve(__dirname, '../src/cli.ts'),
+      notarize: path.resolve(__dirname, '../src/notarize.ts'),
     },
     external,
     plugins: [
       typescript({
         tsconfig: path.resolve(__dirname, '../tsconfig.json')
       }),
-      nodeResolve()
+      nodeResolve(),
+      aliasPlugin({
+        resolve: ['.ts', '.js'],
+        entries: [
+          { find: '@', replacement: __dirname + '/src' },
+        ]
+      }),
     ],
     treeshake: {
       moduleSideEffects: false
