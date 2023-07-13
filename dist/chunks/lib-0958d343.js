@@ -395,7 +395,7 @@ const startRender = (onlyWeb = true) => {
     });
     const server = new WebpackDevServer({ ...devConfig.devServer }, compiler);
     server.startCallback(() => {
-        logger.title('success', 'Render进程', `Starting server on http://localhost:${PORT}`);
+        logger.title('info', 'Render进程', `Starting server on http://localhost:${PORT}`);
     });
     if (!onlyWeb) {
         return webpackHotMiddleware(compiler, {
@@ -1858,6 +1858,12 @@ const startApp = () => {
 const startMain = async () => {
     const { publish } = startRender$1(false);
     const { PORT } = getConfig.getConfig();
+    setInterval(() => {
+        publish === null || publish === void 0 ? void 0 : publish({
+            action: 'compiling'
+        });
+        logger.error('ssss', 'WWWWW');
+    }, 10000);
     const main$ = startElectron$1().pipe(debounceTime(1000), map(() => (mainProcess === null || mainProcess === void 0 ? void 0 : mainProcess.pid) && process.kill(mainProcess === null || mainProcess === void 0 ? void 0 : mainProcess.pid)), delay(800), map(() => {
         process.env.RENDERER_RESOURCE = `http://localhost:${PORT}`;
         startApp();
@@ -1865,9 +1871,7 @@ const startMain = async () => {
             action: 'compiling'
         });
     }));
-    const { unsubscribe } = main$.subscribe(res => {
-        // console.log(res);
-    });
+    const { unsubscribe } = main$.subscribe();
     process.on('exit', () => {
         logger.title('success', 'Electron', `Exit`);
         unsubscribe();

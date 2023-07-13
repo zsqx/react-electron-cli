@@ -28,7 +28,7 @@ const startRender = (onlyWeb: boolean = true) => {
 
   const server = new WebpackDevServer({ ...devConfig.devServer }, compiler);
   server.startCallback(() => {
-    logger.title('success', 'Render进程', `Starting server on http://localhost:${PORT}`);
+    logger.title('info', 'Render进程', `Starting server on http://localhost:${PORT}`);
   });
   if (!onlyWeb) {
     return webpackHotMiddleware(compiler, {
