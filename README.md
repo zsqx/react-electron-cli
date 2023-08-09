@@ -1,4 +1,4 @@
-# yp-electron-cli
+# react-electron-cli
 
 根目录
 
